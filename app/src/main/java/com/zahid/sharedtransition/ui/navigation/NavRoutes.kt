@@ -7,5 +7,5 @@ object NavRoutes {
     @Serializable
     object ProductList;
     @Serializable
-    data class ProductDetails(val productId: String);
+    data class ProductDetails(val productId: Int);
 }

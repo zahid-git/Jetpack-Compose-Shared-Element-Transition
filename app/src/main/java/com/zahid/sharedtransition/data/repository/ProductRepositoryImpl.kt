@@ -17,6 +17,7 @@ class ProductRepositoryImpl @Inject constructor(
                 name = it.name,
                 image = it.imageUrl,
                 price = it.price,
+                currency = it.currency,
                 category = it.category,
                 details = it.description
             )
@@ -30,6 +31,7 @@ class ProductRepositoryImpl @Inject constructor(
             name = "",
             image = "",
             price = 1.1,
+            currency = "",
             category = "",
             details = ""
         )

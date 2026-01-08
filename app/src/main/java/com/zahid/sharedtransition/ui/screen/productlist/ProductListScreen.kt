@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,9 +24,20 @@ import com.zahid.sharedtransition.domain.model.ProductModel
 
 @Composable
 fun ProductListScreen(
+    navigateToDetailsPage: (productId: Int) -> Unit,
     viewModel: ProductListViewModel = hiltViewModel()
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(viewModel.viewAction) {
+        viewModel.viewAction.collect {
+            when(it) {
+                is ProductListViewAction.GoToDetailsPage -> {
+                    navigateToDetailsPage(it.productId)
+                }
+            }
+        }
+    }
 
     MainProductList(viewState.productList)
 }
@@ -80,6 +92,10 @@ private fun ProductItems(
         ) {
             Text(
                 text = product.name
+            )
+
+            Text(
+                text = "Price : ${product.currency} ${product.price}"
             )
 
             Text(
