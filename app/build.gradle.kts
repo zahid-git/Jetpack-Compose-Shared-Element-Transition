@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.compose.animation:animation:1.10.0")
     implementation("androidx.compose.ui:ui:1.10.0")
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+    implementation(libs.coil3.network.okhttp)
 
 
     // Test Dependencies

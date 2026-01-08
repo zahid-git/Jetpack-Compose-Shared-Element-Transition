@@ -1,10 +1,13 @@
 package com.zahid.sharedtransition.data.model
 
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ProductDataModel(
     val products: List<ProductItemDataModel>
 )
 
+@Serializable
 data class ProductItemDataModel(
     val id: Int,
     val name: String,
