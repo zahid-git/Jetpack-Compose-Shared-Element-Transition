@@ -17,6 +17,4 @@ interface ProductModule {
     fun bindProductRepository(implementation: ProductRepositoryImpl): ProductRepository
 
 
-
-
 }
