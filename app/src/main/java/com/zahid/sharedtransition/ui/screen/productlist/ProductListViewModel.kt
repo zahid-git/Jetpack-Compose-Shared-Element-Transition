@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.zahid.sharedtransition.domain.usecase.GetAllProductListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -34,7 +35,7 @@ class ProductListViewModel @Inject constructor(
     fun onEvent(event: ProductListViewEvent){
         when(event) {
             is ProductListViewEvent.ProductListItemClick -> {
-                _viewAction.trySend(ProductListViewAction.GoToDetailsPage(event.productId))
+                _viewAction.trySend(ProductListViewAction.GoToDetailsPage(event.productId, event.productImage))
             }
         }
     }
