@@ -2,7 +2,11 @@ package com.zahid.sharedtransition.ui.screen.productdetails
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.foundation.Image
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,15 +32,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.zahid.sharedtransition.R
 import com.zahid.sharedtransition.domain.model.ProductModel
 
 @Composable
@@ -99,7 +100,13 @@ private fun DetailsPage(
                         .fillMaxWidth()
                         .sharedElement(
                             sharedContentState = rememberSharedContentState(key = "ProductImage-$productId"),
-                            animatedVisibilityScope = animationVisibilityScope
+                            animatedVisibilityScope = animationVisibilityScope,
+                            boundsTransform = { _, _ ->
+                                spring(
+                                    stiffness = Spring.StiffnessMediumLow,
+                                    dampingRatio = Spring.DampingRatioLowBouncy
+                                )
+                            }
                         ),
                     contentScale = ContentScale.FillWidth
                 )
@@ -153,6 +160,7 @@ private fun DetailsPage(
                         modifier = Modifier
                             .padding(top = 10.dp),
                         text = data.name,
+                        color = Color.Black,
                         fontWeight = FontWeight.Light,
                         fontSize = 25.sp
                     )
@@ -161,6 +169,7 @@ private fun DetailsPage(
                         modifier = Modifier
                             .padding(top = 6.dp),
                         text = "$ ${data.price}",
+                        color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -168,6 +177,7 @@ private fun DetailsPage(
                     Text(
                         modifier = Modifier
                             .padding(top = 15.dp),
+                        color = Color.Black,
                         text = data.details,
                         fontSize = 15.sp
                     )
