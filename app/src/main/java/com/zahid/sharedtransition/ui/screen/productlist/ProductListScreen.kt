@@ -1,5 +1,7 @@
 package com.zahid.sharedtransition.ui.screen.productlist
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -25,13 +26,15 @@ import com.zahid.sharedtransition.domain.model.ProductModel
 @Composable
 fun ProductListScreen(
     navigateToDetailsPage: (productId: Int) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animationVisibilityScope: AnimatedVisibilityScope,
     viewModel: ProductListViewModel = hiltViewModel()
 ) {
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     LaunchedEffect(viewModel.viewAction) {
         viewModel.viewAction.collect {
-            when(it) {
+            when (it) {
                 is ProductListViewAction.GoToDetailsPage -> {
                     navigateToDetailsPage(it.productId)
                 }
@@ -39,34 +42,48 @@ fun ProductListScreen(
         }
     }
 
-    MainProductList(viewState.productList)
+    MainProductList(
+        products = viewState.productList,
+        onEvent = viewModel::onEvent,
+        sharedTransitionScope = sharedTransitionScope,
+        animationVisibilityScope = animationVisibilityScope
+    )
 }
 
 @Composable
-private fun MainProductList(products: List<ProductModel>) {
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        LazyColumn(
+private fun MainProductList(
+    products: List<ProductModel>,
+    onEvent: (ProductListViewEvent) -> Unit,
+    sharedTransitionScope: SharedTransitionScope,
+    animationVisibilityScope: AnimatedVisibilityScope,
+) {
+    with(sharedTransitionScope) {
+        Column(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            items(products, key = { it.productId }) {
-                ProductItems(it) {
-
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                items(products, key = { it.productId }) {
+                    ProductItems(
+                        product = it,
+                        animationVisibilityScope = animationVisibilityScope,
+                        onItemClick = { productId ->
+                            onEvent(ProductListViewEvent.ProductListItemClick(productId = productId))
+                        })
                 }
             }
         }
     }
 }
 
-
 @Composable
-private fun ProductItems(
+private fun SharedTransitionScope.ProductItems(
     product: ProductModel,
-    onItemClick: (id: Int) -> Unit
+    animationVisibilityScope: AnimatedVisibilityScope,
+    onItemClick: (id: Int) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -81,7 +98,11 @@ private fun ProductItems(
         AsyncImage(
             modifier = Modifier
                 .width(180.dp)
-                .aspectRatio(4 / 3f),
+                .aspectRatio(4 / 3f)
+                .sharedElement(
+                    sharedContentState = rememberSharedContentState(key = "ProductImage-${product.productId}"),
+                    animatedVisibilityScope = animationVisibilityScope
+                ),
             model = product.image,
             contentDescription = null,
         )
@@ -93,11 +114,9 @@ private fun ProductItems(
             Text(
                 text = product.name
             )
-
             Text(
                 text = "Price : ${product.currency} ${product.price}"
             )
-
             Text(
                 text = "Category: ${product.category}"
             )
