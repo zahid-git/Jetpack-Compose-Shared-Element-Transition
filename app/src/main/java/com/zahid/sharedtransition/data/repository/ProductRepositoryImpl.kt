@@ -25,16 +25,22 @@ class ProductRepositoryImpl @Inject constructor(
         return productModelList
     }
 
-    override suspend fun getProductDetails(id: Int): ProductModel {
-        return ProductModel(
-            productId = 1,
-            name = "",
-            image = "",
-            price = 1.1,
-            currency = "",
-            category = "",
-            details = ""
-        )
+    override suspend fun getProductDetails(id: Int): ProductModel? {
+        val productData = DataSource().fetchProduct(id)
+        val product = productData?.let {
+            ProductModel(
+                productId = it.id,
+                name = it.name,
+                image = it.imageUrl,
+                price = it.price,
+                currency = it.currency,
+                category = it.category,
+                details = it.description
+            )
+        } ?: run {
+            null
+        }
+        return product
     }
 
 }
