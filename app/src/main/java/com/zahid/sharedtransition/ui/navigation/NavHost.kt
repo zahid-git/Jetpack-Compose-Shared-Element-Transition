@@ -1,5 +1,6 @@
 package com.zahid.sharedtransition.ui.navigation
 
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -11,9 +12,9 @@ import com.zahid.sharedtransition.ui.screen.productlist.ProductListScreen
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()){
-    /*SharedTransitionLayout(
+    SharedTransitionLayout(
 
-    ) {*/
+    ) {
         NavHost(
             navController = navController,
             startDestination = NavRoutes.ProductList,
@@ -22,12 +23,15 @@ fun AppNavHost(navController: NavHostController = rememberNavController()){
                 ProductListScreen(
                     navigateToDetailsPage = {
                         navController.navigate(NavRoutes.ProductDetails(it))
-                    }
+                    },
+                    sharedTransitionScope = this@SharedTransitionLayout,
+                    animationVisibilityScope = this,
                 )
             }
 
+
         }
-    /*}*/
+    }
 
 
 }
