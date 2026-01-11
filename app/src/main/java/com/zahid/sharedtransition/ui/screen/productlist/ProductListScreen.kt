@@ -99,26 +99,6 @@ private fun MainProductList(
                 }
             }
         }
-
-
-        /*LazyColumn {
-            items(items = products, key = { it.productId }) {
-                with(sharedTransitionScope) {
-                    ProductItems(
-                        product = it,
-                        animationVisibilityScope = animationVisibilityScope,
-                        onItemClick = { productId, productImage ->
-                            onEvent(
-                                ProductListViewEvent.ProductListItemClick(
-                                    productId = productId,
-                                    productImage = productImage
-                                )
-                            )
-                        }
-                    )
-                }
-            }
-        }*/
     }
 }
 
