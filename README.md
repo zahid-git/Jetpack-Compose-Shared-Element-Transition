@@ -96,4 +96,4 @@ This project is open‑source. Check the LICENSE file for details.
 
 This project was inspired by my Medium article that breaks down shared transitions with visuals and implementation tips — perfect if you want to learn the why as well as the how.
 
-https://medium.com/@me.zahidul/jetpack‑compose‑shared‑element‑transitions‑create‑smooth‑android‑animations‑0088ca05c987
+https://medium.com/@me.zahidul/jetpack-compose-shared-element-transitions-create-smooth-android-animations-0088ca05c987
