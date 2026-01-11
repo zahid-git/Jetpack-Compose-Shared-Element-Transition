@@ -14,8 +14,6 @@ This project demonstrates how to use the new **Shared Element Transition APIs** 
 ✅ Multiple transition patterns (image, text, FAB, sheet, etc.)  
 ✅ Kotlin & Jetpack Compose implementation
 
----
-
 ## 🧠 What are Shared Element Transitions?
 
 Shared Element Transitions create smooth animations for UI elements that are **shared between screens or states**, maintaining visual continuity for the user. For example, an image or title can smoothly animate from a list screen into a detail screen.
@@ -33,8 +31,6 @@ Jetpack Compose provides APIs such as:
 ### Requirements
 
 Make sure your project uses a **Jetpack Compose UI + Animation version** that supports Shared Element APIs (1.10+ or newer).
-
----
 
 ### Setup
 
@@ -83,7 +79,6 @@ AsyncImage(
 
 Android official documentation on Shared Element Transitions in Compose — see Compose animation shared elements. Android Developer blog for the latest Compose animation APIs.
 
----
 
 ## 🤝 Contributing
 
@@ -92,13 +87,10 @@ Contributions are welcome! Feel free to:
 2. Suggest new samples
 3. Open pull requests
 
----
 
 ## 📄 License
 
 This project is open‑source. Check the LICENSE file for details.
-
----
 
 ## 📖 Related Reading
 
